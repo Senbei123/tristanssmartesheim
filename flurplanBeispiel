@@ -1,0 +1,145 @@
+views:
+  - title: EG
+    path: Flurplan
+    type: panel
+    icon: null
+    badges: []
+    cards:
+      - type: custom:config-template-card
+        entities:
+          - light.esstisch_2
+          - switch.wz_kueche_weihnachtsplug
+					- ....  # Eure Entitäten nicht vergessen!!!
+        card:
+          type: picture-elements
+          image: /local/floorplan/EG-Nacht.png
+          style: |
+            ha-card:first-child {
+              background: rgba(42, 46, 48, 1)
+            }
+          elements:
+            - type: image
+              action: none
+              entity: sun.sun
+              state_image:
+                above_horizon: /local/floorplan/EG-TAG.png
+                below_horizon: /local/floorplan/transparent.png
+              tap_action:
+                action: none
+              hold_action:
+                action: none
+              style:
+                top: 50%
+                left: 50%
+                width: 100%
+                height: 100%
+            - type: image
+              action: none
+              entity: light.esstisch_2
+              hold_action:
+                action: none
+              tap_action:
+                action: none
+              image: /local/floorplan/EG-Esstisch.png
+              style:
+                filter: >-
+                  ${ "hue-rotate(" +
+                  (states['light.esstisch_2'].attributes.hs_color ?
+                  states['light.esstisch_2'].attributes.hs_color[0] : 0) +
+                  "deg)"}
+                opacity: >-
+                  ${states['light.esstisch_2'].state === 'on' ?
+                  (states['light.esstisch_2'].attributes.brightness / 255) :
+                  '0'}
+                mix-blend-mode: lighten
+                top: 50%
+                left: 50%
+                width: 100%
+                height: 100%
+            - type: image
+              action: none
+              entity: switch.wz_kueche_weihnachtsplug
+              hold_action:
+                action: none
+              tap_action:
+                action: none
+              state_image:
+                'on': /local/floorplan/EG-Sterne.png
+                'off': /local/floorplan/transparent.png
+                unavailable: /local/floorplan/transparentError.png
+              style:
+                mix-blend-mode: lighten
+                top: 50%
+                left: 50%
+                width: 100%
+                height: 100%
+            - type: image
+              action: none
+              entity: switch.spielzimmer_lampe
+              hold_action:
+                action: none
+              tap_action:
+                action: none
+              state_image:
+                'on': /local/floorplan/EG-Spielzimmer.png
+                'off': /local/floorplan/transparent.png
+                unavailable: /local/floorplan/transparentError.png
+              style:
+                mix-blend-mode: lighten
+                top: 50%
+                left: 50%
+                width: 100%
+                height: 100%
+            - type: state-icon
+              entity: switch.wc_licht
+              icon: mdi:lightbulb
+              style:
+                left: 75.3%
+                top: 85.2%
+                '--iron-icon-stroke-color': '#969696'
+                border-radius: 50%
+                text-align: center
+                background-color: rgba(255, 255, 255, 0.3)
+              tap_action:
+                action: toggle
+            - type: state-label
+              entity: sensor.wz_temperatur
+              style:
+                left: 40%
+                top: 62%
+                color: '#000'
+                border-radius: 50%
+                text-align: center
+                background-color: rgba(255, 255, 255, 0.3)
+                font-size: 11px
+                font-weight: bold
+            - type: state-icon
+              entity: binary_sensor.wz_schrankwand_bewegung
+              icon: mdi:run
+              style:
+                left: 28.4%
+                top: 60.2%
+                '--iron-icon-stroke-color': '#969696'
+                border-radius: 50%
+                text-align: center
+                background-color: rgba(255, 255, 255, 0.3)
+            - type: state-icon
+              entity: media_player.wohnzimmer
+              icon: mdi:speaker
+              style:
+                left: 69.4%
+                top: 76.4%
+                '--iron-icon-stroke-color': '#969696'
+                border-radius: 50%
+                text-align: center
+                background-color: rgba(255, 255, 255, 0.3)
+  - title: Keller
+    path: Flurplan-Keller
+    type: panel
+    icon: null
+    badges: []
+    cards:
+      - type: custom:config-template-card
+        entities:
+          - switch.keller_waschmaschine
+					..... und so weiter und so fort... :)
