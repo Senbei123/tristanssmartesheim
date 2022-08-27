@@ -1,5 +1,5 @@
 # Tristan's Smartes Heim
-Code aus Tristan's Smartes Heim Youtube Channel 
+Hier findet ihr Node-RED Flows, welche ich auf meinem Kanal "Tristan's Smartes Heim" vorstelle und erkläre: 
 https://www.youtube.com/c/TristansSmartesHeim
 
 Ich freue mich über eure Unterstützung:
