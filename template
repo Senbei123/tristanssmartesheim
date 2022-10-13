@@ -1,0 +1,1 @@
+{{(as_timestamp(now()) - as_timestamp(state_attr("automation.demo5", "last_triggered") | default(0)) | int > 21600 )}}
