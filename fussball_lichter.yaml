@@ -1,0 +1,112 @@
+blueprint:
+  name: Fussball Lichter
+  description: 15min vor Anpfiff werden die Lampen in den Farben des eigenen und gegnerischen Teams geschaltet
+  domain: automation
+  author: Tristan's Smartes Heim
+  input:
+    teamtracker:
+      name: Team Tracker
+      description: Der Teamtracker Sensor, dessen Werte abgerufen werden sollen
+      selector:
+        entity:
+          filter:
+            - integration: teamtracker
+    lampe1:
+      name: Lampe 1
+      description: Erste Lampe, die in der 1. Farbe des eigenen Teams leuchtet
+      selector:
+        entity:
+          filter:
+            - domain: light
+    lampe2:
+      name: Lampe 2
+      description: Zweite Lampe, die in der 2. Farbe des eigenen Teams leuchtet
+      selector:
+        entity:
+          filter:
+            - domain: light
+    lampe3:
+      name: Lampe 3
+      description: Dritte Lampe, die in der 1. Farbe des gegnerischen Teams leuchtet
+      selector:
+        entity:
+          filter:
+            - domain: light
+    lampe4:
+      name: Lampe 4
+      description: Vierte Lampe, die in der 2. Farbe des gegnerischen Teams leuchtet
+      selector:
+        entity:
+          filter:
+            - domain: light
+
+alias: Fussball Lichter
+description: >-
+  15min vor Anpfiff werden die Lampen in den Farben des eigenen und gegnerischen
+  Teams geschaltet
+variables:
+    teamtracker: !input teamtracker
+trigger:
+  - alias: 15 Minuten vor Anpfiff
+    platform: template
+    value_template: >-
+      {{state_attr(teamtracker, 'date') ==
+      now()+timedelta(minutes=15)}}
+condition:
+  - condition: state
+    entity_id: remote.tv
+    state: "on"
+action:
+  - service: light.turn_on
+    metadata: {}
+    data:
+      rgb_color:
+        - >-
+          {{state_attr(teamtracker,'team_colors')[0][1:3]|int(base=16)}}
+        - >-
+          {{state_attr(teamtracker,'team_colors')[0][3:5]|int(base=16)}}
+        - >-
+          {{state_attr(teamtracker,'team_colors')[0][5:7]|int(base=16)}}
+    target:
+      entity_id: !input lampe1
+    alias: Licht 1 für das eigene Team einschalten
+  - service: light.turn_on
+    metadata: {}
+    data:
+      rgb_color:
+        - >-
+          {{state_attr(teamtracker,'team_colors')[1][1:3]|int(base=16)}}
+        - >-
+          {{state_attr(teamtracker,'team_colors')[1][3:5]|int(base=16)}}
+        - >-
+          {{state_attr(teamtracker,'team_colors')[1][5:7]|int(base=16)}}
+    target:
+      entity_id: !input lampe2
+    alias: Licht 2 für das eigene Team einschalten
+  - service: light.turn_on
+    metadata: {}
+    data:
+      rgb_color:
+        - >-
+          {{state_attr(teamtracker,'opponent_colors')[0][1:3]|int(base=16)}}
+        - >-
+          {{state_attr(teamtracker,'opponent_colors')[0][3:5]|int(base=16)}}
+        - >-
+          {{state_attr(teamtracker,'opponent_colors')[0][5:7]|int(base=16)}}
+    target:
+      entity_id: !input lampe3
+    alias: Licht 3 für das gegnerische Team einschalten
+  - service: light.turn_on
+    metadata: {}
+    data:
+      rgb_color:
+        - >-
+          {{state_attr(teamtracker,'opponent_colors')[1][1:3]|int(base=16)}}
+        - >-
+          {{state_attr(teamtracker,'opponent_colors')[1][3:5]|int(base=16)}}
+        - >-
+          {{state_attr(teamtracker,'opponent_colors')[1][5:7]|int(base=16)}}
+    target:
+      entity_id: !input lampe4
+    alias: Licht 4 für das gegnerische Team einschalten
+mode: single
